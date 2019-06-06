@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>燕网--课程表</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="/class/css-table.css" />
+
+<script type="text/javascript" src="/class/js/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="/class/js/style-table.js"></script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=15910806" charset="UTF-8"></script>
+
+    <style type="text/css">
+        .table-container
+        {
+            width: 100%;
+        }
+        .center_bottom input {
+            color: #03515d;
+            font-size: 12px;
+            height: 18px;
+            width: 50px;
+            padding: 5px;
+            vertical-align: middle;
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .center_bottom span {
+            border: 0px;
+            padding: 0px;
+        }
+        a{
+            cursor: pointer;
+            text-decoration: none;
+            color: blue;
+        }
+        a:hover{
+            color: purple;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<table id="travel" class="table-container">
+
+    <thead>
+    	<tr>
+            <th scope="col" rowspan="2" width="8%">时间</th>
+        </tr>
+
+        <tr>
+            <th scope="col">周一</th>
+            <th scope="col">周二</th>
+            <th scope="col">周三</th>
+            <th scope="col">周四</th>
+            <th scope="col">周五</th>
+            <th scope="col">周六</th>
+            <th scope="col">周日</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+
+    	<tr th:each="c,var: ${classesList}">
+    		<th th:utext="${(var.index*2 + 1)+'--'+(var.index*2 + 2)}"></th>
+            <td th:utext="${c.mon}"></td>
+            <td th:utext="${c.tues}"></td>
+            <td th:utext="${c.wed}"></td>
+            <td th:utext="${c.thur}"></td>
+            <td th:utext="${c.fri}"></td>
+            <td th:utext="${c.sat}"></td>
+            <td th:utext="${c.sun}"></td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+<!--分页-->
+<div class="Paging" id="pagination">
+    <div class="center_bottom">
+           <span>共有</span> <span style="font-size: 36px;color: #1E9FFF">20</span>
+        <span>周，当前第 </span><span id="currentPage" style="font-size: 36px;color: #1E9FFF" th:text="${currentWeek}">13</span>
+        <span>/</span>
+        <span style="font-size: 36px;color: #1E9FFF">20</span>
+        <span>周</span>
+           
+        <div style="float:right;padding-right:30px">
+               <a th:if="${currentWeek}>1" th:href="@{/query/classes(weekNum=${currentWeek-1})}">上一周</a>
+               <a th:if="${currentWeek}<20" th:href="@{/query/classes(weekNum=${currentWeek+1})}">下一周</a>
+               <input type="number" id="toPage">
+               <a href="javascript:toSkip()">跳转</a>
+        </div>
+         
+    </div>
+
+</div>
+<script type="text/javascript">
+    //页面跳转
+    function toSkip() {
+        var toPage = document.getElementById("toPage").value;
+        var href = "/query/classes?weekNum="+toPage;
+        window.open(href,"_self");
+    }
+</script>
+</body>
+</html>
+

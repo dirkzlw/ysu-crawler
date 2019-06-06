@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<title>燕网--空教室</title>
+
+	<link rel="stylesheet" type="text/css" media="screen" href="/class/css-table.css" />
+
+	<script type="text/javascript" src="/class/js/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="/class/js/style-table.js"></script>
+
+	<!--弹框引入-->
+	<link rel="stylesheet" href="/naran/css/naranja.min.css">
+	<script type="text/javascript" src="/naran/js/naranja.js"></script>
+
+	<style type="text/css">
+		.table-container
+		{
+			width: 100%;
+		}
+		.sel_btn{
+			width: 80px;
+			height: 21px;
+			line-height: 21px;
+			padding: 0;
+			background: #02bafa;
+			border: 1px #26bbdb solid;
+			border-radius: 3px;
+			/*color: #fff;*/
+			display: inline-block;
+			text-decoration: none;
+			font-size: 15px;
+			outline: none;
+		}
+		.ch_cls{
+			background: #e4e4e4;
+		}
+
+		.com-sel {
+			line-height: 3rem;
+			cursor: pointer;        /*鼠标上移变成小手*/
+		}
+
+		.com-opt {
+			width: 30%;
+			height: 25px;
+			color: #999;
+			/*去掉默认的下拉三角*/
+			appearance:none;
+			-moz-appearance:none;
+			-webkit-appearance:none;
+			/*添加下拉三角图标*/
+			background: url("/class/img/tranger.jpg") no-repeat right center transparent;
+		}
+	</style>
+
+</head>
+
+<body>
+
+<div align="center" class="com-sel">
+	<select id="select" class="com-opt">
+		<option value="1">第1,2节</option>
+		<option value="2">第3,4节</option>
+		<option value="3">第5,6节</option>
+		<option value="4">第7,8节</option>
+		<option value="5">第9,10节</option>
+		<option value="6">第11,12节</option>
+		<option value="7">上午</option>
+		<option value="8">下午</option>
+		<option value="9">晚上</option>
+		<option value="10">白天</option>
+		<option selected="selected" value="11">整天</option>
+	</select>
+
+	<a href="javascript:;" onClick="fun()" class="sel_btn ch_cls">查&nbsp;&nbsp;询</a>
+
+</div>
+
+<br/>
+
+<table id="travel" class="table-container">
+
+	<thead>
+	<tr>
+		<th scope="col" rowspan="2">教室名称</th>
+	</tr>
+
+	<tr>
+		<th scope="col">教室类别</th>
+		<th scope="col">所属校区</th>
+		<th scope="col">座位数</th>
+		<th scope="col">使用部门</th>
+	</tr>
+
+	</thead>
+
+
+	<tbody>
+
+	<tr th:each="c: ${classroomList}">
+		<td th:utext="${c.classroomName}"></td>
+		<td th:utext="${c.classroomType}"></td>
+		<td th:utext="${c.campus}"></td>
+		<td th:utext="${c.seatNum}"></td>
+		<td th:utext="${c.userDepter}"></td>
+	</tr>
+
+	</tbody>
+
+</table>
+
+</body>
+	<script type="text/javascript">
+
+		$(function () {
+            narn("success", "空教室查询成功！");
+        })
+
+        function fun() {
+		    narn("success","正在查询，请稍后。。。")
+            //获取选择的值
+            var sel = document.getElementById("select").value;
+            location.href="/query/classroom?select="+sel;
+        }
+
+        /**
+         * 弹出对话框
+         * @param type
+         * @param msg
+         */
+        function narn (type,msg) {
+            naranja()[type]({
+                title: '消息提示',
+                text: msg,
+                timeout: 'keep',
+                buttons: [{
+                    text: '接受',
+                    click: function (e) {
+                        naranja().success({
+                            title: '通知',
+                            text: '通知被接受'
+                        })
+                    }
+                },{
+                    text: '取消',
+                    click: function (e) {
+                        e.closeNotification()
+                    }
+                }]
+            })
+        }
+	</script>
+</html>
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>燕网--登录</title>
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="/login/css/login.css">
+
+  <!--弹框引入-->
+  <link rel="stylesheet" href="/naran/css/naranja.min.css">
+  <script type="text/javascript" src="/naran/js/naranja.js"></script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+<body onkeydown="keyLogin()">
+<!-- particles.js container -->
+<div id="particles-js" style="display: flex;align-items: center;justify-content: center">
+</div>
+<div class="login-page">
+   <div class="login-content">
+     <div class="login-tit">登录</div>
+     <div class="login-input">
+       <input type="text" placeholder="学号" name="studentID">
+     </div>
+     <div class="login-input">
+      <input type="password" placeholder="密码" name="password">
+     </div>
+    <div class="login-btn">
+      <div class="login-btn-left" id="keyBtn" onClick="login()">
+        <span>登录</span>
+      </div>
+    </div>
+   </div>
+</div>
+
+<!-- scripts -->
+<script src="/login/js/particles.js"></script>
+<script src="/login/js/app.js"></script>
+<script src="/login/js/ajax.js"></script>
+<script src="/login/js/jquery-1.11.0.min.js"></script>
+<script>
+
+    /*
+     * 登录函数
+    */
+  function login() {
+      var studentID = $('input[name="studentID"]').val();
+      var password = $('input[name="password"]').val();
+      if (studentID == '') {
+          narn("warn","学号不能为空！")
+      } else if (password == '') {
+          narn("warn","密码不能为空！")
+      }else{
+          narn("success","正在请求，请稍后。。。")
+          var autoLogin;
+          var pic = document.getElementById('picture');
+          $.ajax({
+              type: "POST",
+              url: "/login",
+              data : {'username':studentID,'password':password},
+              dataType: "text", //return dataType: text or json
+              success: function(json) {
+                  if(json=="loginSuccess"){
+                      narn('success','登录成功！即将自动跳转页面')
+                      setTimeout(function () {
+                          window.location.href='/index';
+                      },2500)
+                  }else{
+                      narn('warn','登录失败！请检查学号和密码')
+                  }
+              },
+              error: function(json) {
+                  narn('warn','登录失败！请检查学号和密码')
+                  return false;
+              }
+          });
+      }
+
+  }
+
+  /*
+  * 回车登录，监听函数
+  */
+    function keyLogin(){
+        if (event.keyCode==13) { //回车键的键值为13
+            var toClick = document.getElementById("keyBtn");
+            toClick.click();  //调用登录按钮的登录事件
+        }
+    }
+
+  /**
+   * 弹出对话框
+   * @param type
+   * @param msg
+   */
+  function narn (type,msg) {
+      naranja()[type]({
+          title: '消息提示',
+          text: msg,
+          timeout: 'keep',
+          buttons: [{
+              text: '接受',
+              click: function (e) {
+                  naranja().success({
+                      title: '通知',
+                      text: '通知被接受'
+                  })
+              }
+          },{
+              text: '取消',
+              click: function (e) {
+                  e.closeNotification()
+              }
+          }]
+      })
+  }
+
+</script>
+</body>
+</html>

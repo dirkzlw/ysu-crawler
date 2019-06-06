@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>燕网--考试日程</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="/class/css-table.css" />
+
+<script type="text/javascript" src="/class/js/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="/class/js/style-table.js"></script>
+
+    <style type="text/css">
+        .table-container
+        {
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<table id="travel" class="table-container">
+
+    <thead>
+    	<tr>
+            <th scope="col" rowspan="2">课程名称</th>
+        </tr>
+
+        <tr>
+            <th scope="col">姓名</th>
+            <th scope="col">考试时间</th>
+            <th scope="col">考试地点</th>
+            <th scope="col">座位号</th>
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+    	<tr th:each="e: ${examList}">
+            <td th:utext="${e.className}"></td>
+            <td th:utext="${e.stuName}"></td>
+            <td th:utext="${e.examTime}"></td>
+            <td th:utext="${e.eamAddr}"></td>
+            <td th:utext="${e.stusEat}"></td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+</html>
+
